@@ -89,7 +89,7 @@ export function LiveTerminal() {
 
         cycleTimer = setTimeout(
           () => setCycleSeed(Date.now()),
-          12_000 + Math.floor(Math.random() * 4_000),
+          6_000 + Math.floor(Math.random() * 4_000),
         );
         return { ...prev, done: true };
       });
