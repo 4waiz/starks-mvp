@@ -43,7 +43,10 @@ const CommandInput = React.forwardRef<
     <Search className="mr-2 shrink-0 text-white/50" />
     <CommandPrimitive.Input
       ref={ref}
-      className={cn("flex h-11 w-full rounded-md py-3", className)}
+      className={cn(
+        "flex h-11 w-full rounded-md bg-transparent py-3 text-sm text-white caret-[#22d3ee] outline-none placeholder:text-white/35",
+        className,
+      )}
       {...props}
     />
   </div>

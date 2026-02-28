@@ -122,7 +122,10 @@ export function TextChat({ messages, isLoading, onSend }: Props) {
             className="shrink-0"
             aria-label="Send message"
           >
-            <Send className="h-4 w-4 text-white" strokeWidth={2.4} />
+            <span className="relative inline-flex items-center justify-center">
+              <span className="absolute inset-0 rounded-full bg-white/12 blur-[2px]" />
+              <Send className="relative h-4 w-4 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.45)]" strokeWidth={2.5} />
+            </span>
           </Button>
         </form>
       </div>

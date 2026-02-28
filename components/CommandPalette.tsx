@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CornerDownLeft, Search } from "lucide-react";
+import { CornerDownLeft } from "lucide-react";
 
 import {
   Command,
@@ -242,14 +242,14 @@ export function CommandPalette() {
     >
       <DialogContent className="h-[100dvh] max-h-[100dvh] w-screen max-w-none rounded-none border-0 bg-[#030712] p-0 sm:h-auto sm:max-h-[80vh] sm:w-[95vw] sm:max-w-2xl sm:rounded-3xl sm:border sm:border-white/15">
         <Command shouldFilter={false} className="h-full bg-transparent">
-          <div className="flex items-center gap-2 border-b border-white/10 px-3 sm:px-4">
-            <Search className="h-4 w-4 text-white/45" />
+          <div className="relative">
             <CommandInput
               value={query}
               onValueChange={setQuery}
               placeholder="Jump to section, preset, or recent generation..."
+              className="pr-24"
             />
-            <span className="hidden rounded-md border border-white/15 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-white/50 sm:inline-flex">
+            <span className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-white/50 sm:inline-flex">
               cmd+k
             </span>
           </div>

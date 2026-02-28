@@ -48,9 +48,11 @@ type ProgressState = {
   done: boolean;
 };
 
+const INITIAL_SEED = Date.UTC(2024, 0, 1, 0, 0, 0);
+
 export function LiveTerminal() {
   const reduceMotion = useReducedMotion();
-  const [cycleSeed, setCycleSeed] = useState(() => Date.now());
+  const [cycleSeed, setCycleSeed] = useState(INITIAL_SEED);
   const [progress, setProgress] = useState<ProgressState>({
     line: 0,
     char: 0,
@@ -58,6 +60,11 @@ export function LiveTerminal() {
   });
 
   const lines = useMemo(() => buildRunLines(cycleSeed), [cycleSeed]);
+
+  useEffect(() => {
+    // Prevent SSR/client hydration mismatch from runtime timestamps.
+    setCycleSeed(Date.now());
+  }, []);
 
   useEffect(() => {
     let cycleTimer: ReturnType<typeof setTimeout> | null = null;
