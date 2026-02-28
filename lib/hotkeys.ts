@@ -32,8 +32,11 @@ export function emitApplyPreset(payload: { styleText: string; actionText: string
 export function useHotkeys(hotkeys: Hotkey[]) {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      const eventKey = typeof event.key === "string" ? event.key.toLowerCase() : "";
+      if (!eventKey) return;
+
       hotkeys.forEach((hotkey) => {
-        const matchKey = event.key.toLowerCase() === hotkey.key.toLowerCase();
+        const matchKey = eventKey === hotkey.key.toLowerCase();
         const matchMeta = hotkey.metaOrCtrl ? event.metaKey || event.ctrlKey : true;
         const matchShift =
           typeof hotkey.shift === "boolean" ? event.shiftKey === hotkey.shift : true;

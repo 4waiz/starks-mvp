@@ -8,6 +8,7 @@ Premium single-page Next.js 14 MVP for **Starks AI** with:
 - shadcn-style UI components + `lucide-react` icons
 - Real Gemini-backed interactive motion-spec demo via server route
 - Command palette, local projects workspace, style library, and local share snapshots
+- Floating AI/Voice chat widget with local history and server-side Gemini routes
 
 ## Stack
 
@@ -66,9 +67,19 @@ If the file is missing, the modal shows a graceful fallback message.
 
 Sound toggle defaults to off and is persisted in localStorage.
 
-- Expected file: `public/sfx/bleep.mp3`
+- Expected file: `public/sfx/bleep.wav`
 - Used for subtle bleep on primary actions (request access, try live demo, generate)
 - Missing sound file fails silently and never blocks UI
+
+## AI + Voice chat widget
+
+- Floating bottom-right `Voice chat` pill opens the assistant panel
+- Tabs:
+  - `Chat`: text conversation with quick prompts
+  - `Voice`: speech capture + optional auto-speak responses
+- Chat history persists in localStorage
+- Browser speech recognition is used for speech-to-text (best in Chrome)
+- If Gemini TTS is unavailable, client falls back to browser `speechSynthesis`
 
 ## Interaction upgrades
 
@@ -89,6 +100,16 @@ Sound toggle defaults to off and is persisted in localStorage.
   - Best-effort in-memory rate limit
   - Strict JSON parsing + one retry if invalid JSON
 
+Additional assistant routes:
+
+- `POST /api/chat`
+  - Input: `{ messages: [{ role, content }], context?: { page } }`
+  - Returns: `{ reply }`
+- `POST /api/tts`
+  - Input: `{ text, voice?, style? }`
+  - Returns: `{ audioBase64, mimeType }` when Gemini TTS succeeds
+  - Client fallback handles speech with browser APIs when route fails
+
 ## Deploy to Vercel
 
 1. Push repo to GitHub/GitLab/Bitbucket.
@@ -106,11 +127,14 @@ Vercel defaults:
 
 ```text
 app/
+  api/chat/route.ts
   api/gemini/route.ts
+  api/tts/route.ts
   share/[id]/page.tsx
   layout.tsx
   page.tsx
 components/
+  ChatWidget.tsx
   CommandPalette.tsx
   ProjectsDrawer.tsx
   StylesLibraryModal.tsx
@@ -123,13 +147,17 @@ components/
   HowItWorks.tsx
   DemoPanel.tsx
   Pricing.tsx
+  TextChat.tsx
+  VoiceChat.tsx
   FAQ.tsx
   Footer.tsx
   ui/*
 lib/
+  chat-storage.ts
   gemini-client.ts
   hotkeys.ts
   motion-schema.ts
+  speech.ts
   storage.ts
   utils.ts
 styles/

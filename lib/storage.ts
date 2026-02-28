@@ -179,7 +179,7 @@ export function getActiveProject() {
 }
 
 export function saveOutputToProject(
-  payload: Omit<SavedOutput, "createdAt" | "updatedAt"> & { id?: string },
+  payload: Omit<SavedOutput, "id" | "createdAt" | "updatedAt"> & { id?: string },
   projectId?: string | null,
 ) {
   const now = new Date().toISOString();

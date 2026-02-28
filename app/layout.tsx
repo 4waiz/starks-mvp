@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 
+import { ChatWidget } from "@/components/ChatWidget";
 import { Toaster } from "@/components/ui/toaster";
 import "@/styles/globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         {children}
+        <ChatWidget />
         <Toaster />
       </body>
     </html>

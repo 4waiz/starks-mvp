@@ -92,9 +92,9 @@ export function FeaturesGrid() {
             style={{ perspective: 1200 }}
           >
             <Card className="feature-card relative h-full overflow-hidden rounded-3xl border border-white/10 bg-black/30 p-5 sm:p-6">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(139,92,246,0.2),transparent_42%)] opacity-70" />
-              <div className="relative">
-                <div className="mb-5 inline-flex rounded-2xl border border-white/10 bg-white/10 p-3 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
+              <div className="feature-card-base absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(139,92,246,0.2),transparent_42%)] opacity-55" />
+              <div className="feature-card-content relative">
+                <div className="feature-card-icon mb-5 inline-flex rounded-2xl border border-white/10 bg-white/10 p-3 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
                   <feature.icon className="h-5 w-5 text-[#d5beff]" />
                 </div>
                 <h3 className="text-lg font-semibold text-white">{feature.title}</h3>

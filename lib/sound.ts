@@ -1,24 +1,39 @@
 const SOUND_PREF_KEY = "starks-sound-enabled";
 const SOUND_PREF_EVENT = "starks-sound-preference";
-const BLEEP_SRC = "/sfx/bleep.mp3";
+const FALLBACK_BLEEP_SRC = "/sfx/bleep.wav";
 
-let audioInstance: HTMLAudioElement | null = null;
+let audioContextInstance: AudioContext | null = null;
+let fallbackAudio: HTMLAudioElement | null = null;
 let hasInteractionLock = false;
 let setupDone = false;
 
-function getAudio() {
+function getAudioContext() {
   if (typeof window === "undefined") return null;
-  if (!audioInstance) {
-    audioInstance = new Audio(BLEEP_SRC);
-    audioInstance.preload = "auto";
-    audioInstance.volume = 0.11;
+  if (!audioContextInstance) {
+    const Ctor = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (Ctor) {
+      audioContextInstance = new Ctor();
+    }
   }
-  return audioInstance;
+  return audioContextInstance;
+}
+
+function getFallbackAudio() {
+  if (typeof window === "undefined") return null;
+  if (!fallbackAudio) {
+    fallbackAudio = new Audio(FALLBACK_BLEEP_SRC);
+    fallbackAudio.preload = "auto";
+    fallbackAudio.volume = 0.11;
+  }
+  return fallbackAudio;
 }
 
 function unlockSound() {
   hasInteractionLock = true;
-  getAudio();
+  const context = getAudioContext();
+  if (context && context.state === "suspended") {
+    void context.resume().catch(() => undefined);
+  }
 }
 
 export function initializeSound() {
@@ -63,14 +78,37 @@ export function playBleep() {
   if (!getSoundEnabled()) return;
   if (!hasInteractionLock) return;
 
-  const audio = getAudio();
-  if (!audio) return;
-
   try {
+    const context = getAudioContext();
+    if (context) {
+      if (context.state === "suspended") {
+        void context.resume().catch(() => undefined);
+      }
+
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = "triangle";
+      oscillator.frequency.setValueAtTime(860, context.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(520, context.currentTime + 0.08);
+
+      gain.gain.setValueAtTime(0.0001, context.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.06, context.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.09);
+
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      oscillator.start();
+      oscillator.stop(context.currentTime + 0.095);
+      return;
+    }
+
+    // Fallback for browsers without WebAudio support.
+    const audio = getFallbackAudio();
+    if (!audio) return;
     audio.currentTime = 0;
     audio.volume = 0.11;
     void audio.play().catch(() => undefined);
   } catch {
-    // Missing or blocked audio should never break UI.
+    // Sound should never break UI.
   }
 }

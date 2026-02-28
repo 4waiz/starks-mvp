@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { inputSchema, motionSpecSchema, type MotionSpec } from "@/lib/motion-schema";
 
-const MODEL_NAME = "gemini-1.5-flash";
+const MODELS = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
 const RATE_WINDOW_MS = 60_000;
 const RATE_LIMIT = 12;
 
@@ -64,33 +64,50 @@ function cleanJsonString(value: string) {
 }
 
 async function requestGemini(prompt: string, apiKey: string) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.2,
-          topP: 0.8,
-          topK: 20,
-          maxOutputTokens: 500,
-          responseMimeType: "application/json",
-        },
-      }),
-      cache: "no-store",
-    },
-  );
+  let lastError = "Gemini request failed";
 
-  if (!response.ok) {
+  for (const model of MODELS) {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.2,
+            topP: 0.8,
+            topK: 20,
+            maxOutputTokens: 500,
+            responseMimeType: "application/json",
+          },
+        }),
+        cache: "no-store",
+      },
+    );
+
+    if (response.ok) {
+      return response.json();
+    }
+
     const errorText = await response.text();
-    throw new Error(errorText || "Gemini request failed");
+    try {
+      const parsed = JSON.parse(errorText) as { error?: { message?: string } };
+      lastError = parsed.error?.message || lastError;
+    } catch {
+      lastError = errorText || lastError;
+    }
+
+    if (response.status === 404 && lastError.toLowerCase().includes("not found")) {
+      continue;
+    }
+
+    throw new Error(lastError);
   }
 
-  return response.json();
+  throw new Error(lastError);
 }
 
 function buildPrompt(input: {
