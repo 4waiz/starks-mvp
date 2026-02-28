@@ -11,6 +11,7 @@ import { FeaturesGrid } from "@/components/FeaturesGrid";
 import { Footer } from "@/components/Footer";
 import { HeroHUD } from "@/components/HeroHUD";
 import { HowItWorks } from "@/components/HowItWorks";
+import { LiveTerminal } from "@/components/LiveTerminal";
 import { Metrics } from "@/components/Metrics";
 import { ParticleField } from "@/components/ParticleField";
 import { Pricing } from "@/components/Pricing";
@@ -25,6 +26,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { playBleep } from "@/lib/sound";
 import { Input } from "@/components/ui/input";
 
 const statuses = [
@@ -39,6 +41,7 @@ const logos = ["unity", "unreal", "blender", "fbx", "bvh"];
 export default function Home() {
   const reduceMotion = useReducedMotion();
   const [email, setEmail] = useState("");
+  const [previewMissing, setPreviewMissing] = useState(false);
 
   return (
     <div className="noise-overlay relative">
@@ -51,7 +54,7 @@ export default function Home() {
         transition={{ duration: 0.45 }}
         className="relative overflow-hidden pt-28"
       >
-        <section id="home" className="section-shell mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <section id="home" className="section-shell mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="grid items-center gap-8 xl:grid-cols-[1fr_1.2fr_0.9fr]">
             <motion.div
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -24 }}
@@ -65,20 +68,23 @@ export default function Home() {
               <h1 className="text-4xl font-semibold leading-tight text-white md:text-6xl">
                 welcome to the <span className="accent-italic gradient-text">future</span> of motion
               </h1>
-              <p className="max-w-xl text-base leading-relaxed text-white/75">
-                clone movement identity -&gt; generate new actions -&gt; export fbx/bvh
+              <p className="max-w-2xl text-base leading-relaxed text-white/75">
+                Clone movement identity from 60 seconds, generate new actions in that exact style, and export
+                fbx/bvh into unreal, unity, blender.
               </p>
 
-              <div className="grid gap-2 text-sm text-white/70">
-                <p>clone movement identity from 60 seconds</p>
-                <p>generate new actions in that exact style</p>
-                <p>export fbx/bvh into unreal, unity, blender</p>
-                <p>licensing vault: consent + revenue share</p>
-              </div>
+              <Badge className="w-fit border-[#d946ef]/40 bg-[#d946ef]/12 px-3 py-1.5 text-[11px] uppercase tracking-[0.14em] text-[#f2d4ff]">
+                licensing vault: consent + revenue share
+              </Badge>
 
               <div className="flex flex-wrap gap-3">
                 <Button asChild>
-                  <a href="#demo">
+                  <a
+                    href="#demo"
+                    onClick={() => {
+                      playBleep();
+                    }}
+                  >
                     try live demo
                     <ArrowRight className="h-4 w-4" />
                   </a>
@@ -94,126 +100,54 @@ export default function Home() {
                     <DialogHeader>
                       <DialogTitle>Starks preview feed</DialogTitle>
                       <DialogDescription>
-                        Mock autopreview loop of capture, fingerprint extraction, and generation output.
+                        10-second capture of the live demo pipeline.
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/15 bg-black/40">
-                      <motion.div
-                        className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(139,92,246,0.45),transparent_40%),radial-gradient(circle_at_75%_70%,rgba(217,70,239,0.35),transparent_50%),linear-gradient(120deg,rgba(6,9,25,0.95),rgba(4,7,18,0.96))]"
-                        animate={
-                          reduceMotion
-                            ? {}
-                            : { backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }
-                        }
-                        transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                      />
-                      <div className="absolute inset-4 grid grid-cols-12 gap-3">
-                        <div className="relative col-span-8 overflow-hidden rounded-xl border border-white/15 bg-black/30">
-                          <div className="absolute inset-0 grid grid-cols-7 gap-[1px] opacity-25">
-                            {Array.from({ length: 56 }).map((_, i) => (
-                              <span key={i} className="bg-white/10" />
-                            ))}
+                    <div className="space-y-4">
+                      <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/15 bg-black/50 shadow-[0_0_40px_rgba(139,92,246,0.2)]">
+                        {!previewMissing ? (
+                          <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            controls={false}
+                            preload="metadata"
+                            onError={() => setPreviewMissing(true)}
+                            className="h-full w-full object-cover"
+                          >
+                            <source src="/preview/demo-loop.mp4" type="video/mp4" />
+                          </video>
+                        ) : (
+                          <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.25),rgba(3,7,20,0.95)_68%)] p-6 text-center">
+                            <div className="max-w-md">
+                              <p className="text-base font-semibold text-white">preview video not added yet</p>
+                              <p className="mt-2 text-sm text-white/70">
+                                Add `public/preview/demo-loop.mp4` (10s, H.264 MP4) to enable this panel.
+                              </p>
+                            </div>
                           </div>
+                        )}
 
+                        <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
+                        {!previewMissing ? (
                           <motion.div
-                            className="absolute left-0 right-0 top-0 h-[2px] bg-[#22d3ee] shadow-[0_0_18px_rgba(34,211,238,0.9)]"
+                            className="pointer-events-none absolute left-0 right-0 top-0 h-[2px] bg-[#22d3ee] shadow-[0_0_18px_rgba(34,211,238,0.9)]"
                             animate={reduceMotion ? {} : { top: ["0%", "100%"] }}
                             transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                           />
+                        ) : null}
+                      </div>
 
-                          <div className="absolute left-2 top-2 rounded-full border border-white/15 bg-black/55 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/70">
-                            Frame 128
-                          </div>
-
-                          <div className="absolute right-2 top-2 rounded-full border border-[#22d3ee]/40 bg-black/55 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#c7f9ff]">
-                            tracking lock
-                          </div>
-
-                          <div className="absolute left-[42%] top-[24%]">
-                            <div className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full border border-[#e9ddff] bg-[#d946ef]/20" />
-                            <div className="absolute left-1/2 top-3 h-8 w-[2px] -translate-x-1/2 bg-[#d3c2ff]" />
-                            <div className="absolute left-[47%] top-6 h-[2px] w-5 -translate-x-full bg-[#d3c2ff]" />
-                            <div className="absolute left-[53%] top-6 h-[2px] w-5 bg-[#d3c2ff]" />
-                            <div className="absolute left-[49%] top-10 h-[2px] w-4 -translate-x-full rotate-45 bg-[#22d3ee]" />
-                            <div className="absolute left-[51%] top-10 h-[2px] w-4 -rotate-45 bg-[#22d3ee]" />
-                            <div className="absolute left-[47%] top-14 h-[2px] w-6 -translate-x-full rotate-[67deg] bg-[#22d3ee]" />
-                            <div className="absolute left-[53%] top-14 h-[2px] w-6 -rotate-[67deg] bg-[#22d3ee]" />
-                          </div>
-
-                          <div className="absolute inset-x-3 bottom-2">
-                            <div className="mb-1 flex items-center justify-between text-[9px] uppercase tracking-[0.14em] text-white/55">
-                              <span>pose timeline</span>
-                              <span>00:14 / 00:20</span>
-                            </div>
-                            <div className="h-7 rounded-lg border border-white/10 bg-black/45 px-2 py-1">
-                              <div className="flex h-full items-end gap-1">
-                                {[28, 45, 22, 60, 34, 53, 26, 63, 29, 52, 32, 49].map((h, idx) => (
-                                  <motion.span
-                                    key={h + idx}
-                                    className="w-full rounded-sm bg-gradient-to-t from-[#8b5cf6] via-[#d946ef] to-[#22d3ee]"
-                                    animate={reduceMotion ? {} : { height: [`${h - 8}%`, `${h}%`, `${h - 5}%`] }}
-                                    transition={{
-                                      duration: 1.4 + idx * 0.03,
-                                      repeat: Number.POSITIVE_INFINITY,
-                                      ease: "easeInOut",
-                                      delay: idx * 0.05,
-                                    }}
-                                    style={{ height: `${h}%` }}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          </div>
+                      <div className="grid gap-2 text-xs text-white/65 sm:grid-cols-3">
+                        <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 uppercase tracking-[0.14em]">
+                          capture -> fingerprint
                         </div>
-
-                        <div className="col-span-4 grid gap-3">
-                          <div className="rounded-xl border border-white/15 bg-black/35 p-2.5">
-                            <p className="mb-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/60">
-                              pipeline
-                            </p>
-                            {[
-                              { label: "capture", width: "92%" },
-                              { label: "fingerprint", width: "78%" },
-                              { label: "generate", width: "64%" },
-                              { label: "export", width: "88%" },
-                            ].map((row, idx) => (
-                              <div key={row.label} className="mb-2 last:mb-0">
-                                <div className="mb-1 flex justify-between text-[9px] uppercase tracking-[0.14em] text-white/55">
-                                  <span>{row.label}</span>
-                                  <span>{row.width}</span>
-                                </div>
-                                <div className="h-1.5 rounded-full bg-white/10">
-                                  <motion.div
-                                    className="h-full rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#22d3ee]"
-                                    initial={{ width: 0 }}
-                                    animate={{ width: row.width }}
-                                    transition={{ duration: 0.8, delay: idx * 0.1 }}
-                                  />
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-
-                          <div className="rounded-xl border border-white/15 bg-black/35 p-2.5">
-                            <p className="mb-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/60">
-                              active clips
-                            </p>
-                            <div className="grid grid-cols-2 gap-2">
-                              {["jab_combo", "pivot_turn", "idle_guard", "sidestep"].map((clip, idx) => (
-                                <div
-                                  key={clip}
-                                  className="rounded-md border border-white/10 bg-white/[0.03] px-2 py-1 text-[9px] uppercase tracking-[0.14em] text-white/70"
-                                >
-                                  <span className="mr-1 text-[#22d3ee]">{idx + 1}.</span>
-                                  {clip}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="rounded-xl border border-[#22d3ee]/30 bg-[#22d3ee]/5 px-2.5 py-2 text-[9px] uppercase tracking-[0.14em] text-[#c7f9ff]">
-                            realtime quality checks: clean_contacts / stable_timing
-                          </div>
+                        <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 uppercase tracking-[0.14em]">
+                          generate -> cleanup
+                        </div>
+                        <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 uppercase tracking-[0.14em]">
+                          export fbx/bvh
                         </div>
                       </div>
                     </div>
@@ -255,6 +189,7 @@ export default function Home() {
           </div>
         </section>
 
+        <LiveTerminal />
         <AppMockWindow />
         <Metrics />
         <FeaturesGrid />

@@ -2,10 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Volume2, VolumeX } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
+import {
+  getSoundEnabled,
+  initializeSound,
+  onSoundPreferenceChange,
+  playBleep,
+  setSoundEnabled as persistSoundEnabled,
+} from "@/lib/sound";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -20,6 +27,7 @@ const links = [
 export function SiteHeader() {
   const [activeId, setActiveId] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   const observerIds = useMemo(() => links.map((link) => link.id), []);
 
@@ -31,6 +39,17 @@ export function SiteHeader() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    initializeSound();
+    setSoundEnabled(getSoundEnabled());
+
+    const unsubscribe = onSoundPreferenceChange((enabled) => {
+      setSoundEnabled(enabled);
+    });
+
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
@@ -56,6 +75,15 @@ export function SiteHeader() {
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, [observerIds]);
+
+  const onToggleSound = () => {
+    const next = !soundEnabled;
+    persistSoundEnabled(next);
+    setSoundEnabled(next);
+    if (next) {
+      playBleep();
+    }
+  };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -103,9 +131,27 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <Button asChild size="sm">
-            <a href="#contact">request access</a>
-          </Button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label={soundEnabled ? "Disable sound" : "Enable sound"}
+              onClick={onToggleSound}
+              className="inline-flex h-9 items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              {soundEnabled ? <Volume2 className="h-3.5 w-3.5" /> : <VolumeX className="h-3.5 w-3.5" />}
+              sound
+            </button>
+            <Button asChild size="sm">
+              <a
+                href="#contact"
+                onClick={() => {
+                  playBleep();
+                }}
+              >
+                request access
+              </a>
+            </Button>
+          </div>
         </motion.div>
       </div>
     </header>

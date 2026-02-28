@@ -21,6 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { generateMotionSpec } from "@/lib/gemini-client";
 import type { DemoInput, MotionResponse } from "@/lib/motion-schema";
+import { playBleep } from "@/lib/sound";
 
 type HistoryItem = MotionResponse & {
   id: string;
@@ -78,6 +79,7 @@ export function DemoPanel() {
   );
 
   async function onGenerate() {
+    playBleep();
     setIsLoading(true);
     setProgress(6);
     setPhaseIndex(0);
