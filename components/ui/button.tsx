@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           "btn-gloss px-6 py-3 text-white shadow-[0_0_20px_rgba(139,92,246,0.35)]",
         secondary:
-          "border border-white/20 bg-white/5 px-5 py-2.5 text-white/90 backdrop-blur-xl hover:border-white/40 hover:bg-white/10",
+          "border border-transparent bg-[linear-gradient(rgba(7,11,29,0.9),rgba(7,11,29,0.9))_padding-box,linear-gradient(120deg,rgba(139,92,246,0.7),rgba(217,70,239,0.65),rgba(34,211,238,0.65))_border-box] bg-[length:220%_220%] px-5 py-2.5 text-white/90 backdrop-blur-xl hover:animate-[gradient-shift_2.8s_ease_infinite]",
         ghost:
           "px-3 py-2 text-white/80 hover:bg-white/10 hover:text-white",
       },
