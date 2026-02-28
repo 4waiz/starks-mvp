@@ -247,11 +247,8 @@ export function CommandPalette() {
               value={query}
               onValueChange={setQuery}
               placeholder="Jump to section, preset, or recent generation..."
-              className="pr-24"
+              className="pr-4"
             />
-            <span className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-white/50 sm:inline-flex">
-              cmd+k
-            </span>
           </div>
 
           <CommandList className="max-h-none overflow-y-auto">

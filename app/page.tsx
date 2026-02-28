@@ -39,6 +39,8 @@ const statuses = [
 ];
 
 const logos = ["unity", "unreal", "blender", "fbx", "bvh"];
+const fallbackYoutubeId = process.env.NEXT_PUBLIC_PREVIEW_YOUTUBE_ID || "aqz-KE-bpKQ";
+const fallbackYoutubeSrc = `https://www.youtube-nocookie.com/embed/${fallbackYoutubeId}?autoplay=1&mute=1&loop=1&playlist=${fallbackYoutubeId}&controls=0&modestbranding=1&rel=0&playsinline=1`;
 
 export default function Home() {
   const reduceMotion = useReducedMotion();
@@ -126,12 +128,17 @@ export default function Home() {
                             <source src="/preview/demo-loop.mp4" type="video/mp4" />
                           </video>
                         ) : (
-                          <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.25),rgba(3,7,20,0.95)_68%)] p-6 text-center">
-                            <div className="max-w-md">
-                              <p className="text-base font-semibold text-white">preview video not added yet</p>
-                              <p className="mt-2 text-sm text-white/70">
-                                Add `public/preview/demo-loop.mp4` (10s, H.264 MP4) to enable this panel.
-                              </p>
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.18),rgba(3,7,20,0.9)_68%)]">
+                            <iframe
+                              title="Starks preview fallback video"
+                              src={fallbackYoutubeSrc}
+                              className="h-full w-full"
+                              allow="autoplay; encrypted-media; picture-in-picture"
+                              allowFullScreen
+                              referrerPolicy="strict-origin-when-cross-origin"
+                            />
+                            <div className="pointer-events-none absolute inset-x-3 bottom-3 rounded-xl border border-white/15 bg-black/50 px-3 py-2 text-xs text-white/75 backdrop-blur-md">
+                              Fallback stream active. Add `public/preview/demo-loop.mp4` to use your own clip.
                             </div>
                           </div>
                         )}
