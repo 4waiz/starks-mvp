@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   AppWindow,
@@ -47,17 +48,30 @@ const features = [
 
 export function FeaturesGrid() {
   const reduceMotion = useReducedMotion();
+  const [canHover, setCanHover] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const sync = () => setCanHover(mq.matches);
+    sync();
+
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   return (
-    <section id="features" className="section-shell mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-      <div className="mb-12">
+    <section
+      id="features"
+      className="section-shell mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
+    >
+      <div className="mb-10 sm:mb-12">
         <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#d6c2ff]/80">Core features</p>
         <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-white md:text-4xl">
           Built for fast motion production.
         </h2>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:gap-8 xl:grid-cols-3">
         {features.map((feature, idx) => (
           <motion.div
             key={feature.title}
@@ -66,7 +80,7 @@ export function FeaturesGrid() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: idx * 0.06, duration: 0.42 }}
             whileHover={
-              reduceMotion
+              reduceMotion || !canHover
                 ? {}
                 : {
                     y: -6,
@@ -74,16 +88,17 @@ export function FeaturesGrid() {
                     rotateY: idx % 2 === 0 ? -3 : 3,
                   }
             }
+            whileTap={!canHover ? { scale: 0.985 } : undefined}
             style={{ perspective: 1200 }}
           >
-            <Card className="feature-card relative h-full overflow-hidden rounded-3xl border border-white/10 bg-black/30 p-6">
+            <Card className="feature-card relative h-full overflow-hidden rounded-3xl border border-white/10 bg-black/30 p-5 sm:p-6">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(139,92,246,0.2),transparent_42%)] opacity-70" />
               <div className="relative">
                 <div className="mb-5 inline-flex rounded-2xl border border-white/10 bg-white/10 p-3 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
                   <feature.icon className="h-5 w-5 text-[#d5beff]" />
                 </div>
                 <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
-                <p className="mt-3 max-w-[28ch] text-sm leading-relaxed text-white/70">{feature.copy}</p>
+                <p className="mt-3 max-w-[30ch] text-sm leading-relaxed text-white/75">{feature.copy}</p>
               </div>
             </Card>
           </motion.div>

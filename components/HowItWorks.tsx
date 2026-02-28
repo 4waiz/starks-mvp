@@ -29,16 +29,16 @@ export function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="section-shell mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8"
+      className="section-shell mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
     >
-      <div className="mb-12">
+      <div className="mb-8 sm:mb-12">
         <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#d6c2ff]/80">How it works</p>
-        <h2 className="text-3xl font-semibold text-white md:text-4xl">
+        <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-white md:text-4xl">
           Three steps from source movement to production-ready files.
         </h2>
       </div>
 
-      <div className="relative grid gap-5 lg:grid-cols-3">
+      <div className="relative grid gap-4 md:gap-6 lg:grid-cols-3 lg:gap-8">
         {steps.map((step, idx) => (
           <motion.div
             key={step.title}

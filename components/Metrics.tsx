@@ -37,20 +37,23 @@ export function Metrics() {
   const days = useCountUp(3, inView, 1400);
 
   return (
-    <section id="impact" className="section-shell mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      id="impact"
+      className="section-shell mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
+    >
       <motion.div
         ref={ref}
         initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 28 }}
         whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.55 }}
-        className="grid gap-6 lg:grid-cols-[1.25fr_1fr]"
+        className="grid gap-4 md:gap-6 lg:grid-cols-[1.25fr_1fr] lg:gap-8"
       >
-        <Card className="relative overflow-hidden rounded-[2rem] p-8">
+        <Card className="relative overflow-hidden rounded-[2rem] p-6 sm:p-8">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_100%,rgba(34,211,238,0.12),transparent_46%),radial-gradient(circle_at_100%_0%,rgba(139,92,246,0.2),transparent_50%)]" />
           <div className="relative">
             <p className="text-xs uppercase tracking-[0.24em] text-[#d6c2ff]/80">Quantified impact</p>
-            <h3 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
+            <h3 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
               {pipeline}x faster animation pipeline
             </h3>
             <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/70">
@@ -92,7 +95,7 @@ export function Metrics() {
           </div>
         </Card>
 
-        <Card className="rounded-[2rem] p-6">
+        <Card className="rounded-[2rem] p-5 sm:p-6">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/80">Quality checks</p>
           <div className="mt-5 grid gap-3">
             {["no foot sliding", "clean contacts", "retarget-ready", "stable timing"].map((item, idx) => (

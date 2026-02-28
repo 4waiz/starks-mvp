@@ -29,11 +29,16 @@ export function ParticleField() {
     if (!context) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const starCount = reducedMotion ? 80 : 190;
-
     let width = window.innerWidth;
     let height = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const getStarCount = () => {
+      if (reducedMotion) return width < 768 ? 50 : 80;
+      if (width < 640) return 85;
+      if (width < 1024) return 130;
+      return 185;
+    };
 
     const resize = () => {
       width = window.innerWidth;
@@ -46,6 +51,7 @@ export function ParticleField() {
     };
 
     resize();
+    const starCount = getStarCount();
     let stars = createStars(starCount, width, height);
 
     let rafId = 0;
@@ -79,7 +85,7 @@ export function ParticleField() {
 
     const onResize = () => {
       resize();
-      stars = createStars(starCount, width, height);
+      stars = createStars(getStarCount(), width, height);
     };
 
     window.addEventListener("resize", onResize);

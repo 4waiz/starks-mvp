@@ -101,10 +101,7 @@ export function LiveTerminal() {
     };
   }, [lines, reduceMotion]);
 
-  const visibleLines = lines.filter((_, index) =>
-    reduceMotion ? true : index <= progress.line,
-  );
-
+  const visibleLines = lines.filter((_, index) => (reduceMotion ? true : index <= progress.line));
   const lastRunText = lines.map((line) => `${line.timestamp} ${line.text}`).join("\n");
 
   const onCopyLastRun = async () => {
@@ -118,7 +115,7 @@ export function LiveTerminal() {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
       <div className="glass-panel rounded-2xl border border-white/10 bg-white/5 p-4 md:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
@@ -134,7 +131,7 @@ export function LiveTerminal() {
           </Button>
         </div>
 
-        <div className="mt-4 max-h-[240px] overflow-hidden rounded-xl border border-white/10 bg-black/30 p-4">
+        <div className="mt-4 max-h-[240px] overflow-auto rounded-xl border border-white/10 bg-black/30 p-3 sm:p-4">
           <div className="space-y-1.5 font-mono text-xs leading-6 text-[#cde8ff]/90">
             {visibleLines.map((line, index) => {
               const isCurrentTyping = !reduceMotion && index === progress.line && !progress.done;
@@ -150,9 +147,7 @@ export function LiveTerminal() {
                 >
                   <span className="text-white/45">{line.timestamp}</span>{" "}
                   <span>{typedText}</span>
-                  {isCurrentTyping ? (
-                    <span className="ml-0.5 text-[#22d3ee]">▍</span>
-                  ) : null}
+                  {isCurrentTyping ? <span className="ml-0.5 text-[#22d3ee]">▍</span> : null}
                 </motion.p>
               );
             })}

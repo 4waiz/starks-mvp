@@ -42,13 +42,18 @@ export function Pricing() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section id="pricing" className="section-shell mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-      <div className="mb-10 text-center">
+    <section
+      id="pricing"
+      className="section-shell mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
+    >
+      <div className="mb-8 text-center sm:mb-10">
         <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#d6c2ff]/80">Pricing</p>
-        <h2 className="text-3xl font-semibold text-white md:text-4xl">Scale from creator to studio pipeline.</h2>
+        <h2 className="mx-auto max-w-2xl text-3xl font-semibold leading-tight text-white md:text-4xl">
+          Scale from creator to studio pipeline.
+        </h2>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 xl:gap-8">
         {tiers.map((tier, idx) => (
           <motion.div
             key={tier.name}
@@ -59,7 +64,7 @@ export function Pricing() {
           >
             <Card
               className={cn(
-                "h-full rounded-3xl p-6",
+                "h-full rounded-3xl p-5 sm:p-6",
                 tier.highlighted
                   ? "border-[#d946ef]/45 bg-[linear-gradient(180deg,rgba(139,92,246,0.25),rgba(5,8,24,0.94))] shadow-[0_0_40px_rgba(217,70,239,0.25)]"
                   : "border-white/10 bg-black/30",
@@ -83,7 +88,7 @@ export function Pricing() {
                   </li>
                 ))}
               </ul>
-              <Button asChild className="mt-8 w-full">
+              <Button asChild className="mt-8 min-h-11 w-full">
                 <a
                   href="#contact"
                   onClick={() => {

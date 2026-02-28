@@ -13,24 +13,28 @@ export function AppMockWindow() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section id="proof" className="section-shell mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      id="proof"
+      className="section-shell mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
+    >
       <motion.div
         initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 26 }}
         whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.55 }}
-        className="mb-10"
+        className="mb-8 sm:mb-10"
       >
         <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#d6c2ff]/80">What you get</p>
-        <h2 className="text-3xl font-semibold text-white md:text-4xl">
+        <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-white md:text-4xl">
           Production-grade motion output in a single control panel.
         </h2>
       </motion.div>
 
-      <Card className="relative overflow-hidden rounded-[2rem] p-6 md:p-8">
+      <Card className="relative overflow-hidden rounded-[2rem] p-4 sm:p-6 md:p-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(139,92,246,0.2),transparent_45%),radial-gradient(circle_at_90%_100%,rgba(217,70,239,0.15),transparent_42%)]" />
-        <div className="relative grid gap-8 lg:grid-cols-[1.2fr_1fr]">
-          <div className="space-y-6">
+        <div className="relative overflow-x-auto pb-1">
+          <div className="grid min-w-[720px] gap-6 md:gap-8 lg:min-w-0 lg:grid-cols-[1.2fr_1fr]">
+            <div className="space-y-6">
             <div className="flex flex-wrap items-center gap-3">
               <Badge variant="neon" className="shimmer px-3 py-1.5">
                 starks processing...
@@ -97,11 +101,11 @@ export function AppMockWindow() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <Button variant="secondary" className="gap-2">
+              <Button variant="secondary" className="h-11 w-full gap-2 sm:w-auto">
                 <Download className="h-4 w-4" />
                 export fbx
               </Button>
-              <Button variant="secondary" className="gap-2">
+              <Button variant="secondary" className="h-11 w-full gap-2 sm:w-auto">
                 <Download className="h-4 w-4" />
                 export bvh
               </Button>
@@ -136,8 +140,8 @@ export function AppMockWindow() {
                     <div className="absolute left-[53%] top-7 h-[2px] w-7 bg-white/50" />
                     <div className="absolute left-[49%] top-12 h-[2px] w-5 -translate-x-full rotate-45 bg-white/45" />
                     <div className="absolute left-[51%] top-12 h-[2px] w-5 -rotate-45 bg-white/45" />
-                    <div className="absolute left-[47%] top-17 h-[2px] w-8 -translate-x-full rotate-[70deg] bg-[#f87171]/55" />
-                    <div className="absolute left-[53%] top-17 h-[2px] w-8 -rotate-[62deg] bg-[#f87171]/40" />
+                    <div className="absolute left-[47%] top-[4.25rem] h-[2px] w-8 -translate-x-full rotate-[70deg] bg-[#f87171]/55" />
+                    <div className="absolute left-[53%] top-[4.25rem] h-[2px] w-8 -rotate-[62deg] bg-[#f87171]/40" />
                   </div>
 
                   <div className="absolute inset-x-5 bottom-5">
@@ -184,8 +188,8 @@ export function AppMockWindow() {
                       <div className="absolute left-[53%] top-7 h-[2px] w-7 bg-[#d3c2ff]" />
                       <div className="absolute left-[49%] top-12 h-[2px] w-5 -translate-x-full rotate-45 bg-[#c4b5fd]" />
                       <div className="absolute left-[51%] top-12 h-[2px] w-5 -rotate-45 bg-[#c4b5fd]" />
-                      <div className="absolute left-[47%] top-17 h-[2px] w-8 -translate-x-full rotate-[66deg] bg-[#22d3ee]" />
-                      <div className="absolute left-[53%] top-17 h-[2px] w-8 -rotate-[66deg] bg-[#22d3ee]" />
+                      <div className="absolute left-[47%] top-[4.25rem] h-[2px] w-8 -translate-x-full rotate-[66deg] bg-[#22d3ee]" />
+                      <div className="absolute left-[53%] top-[4.25rem] h-[2px] w-8 -rotate-[66deg] bg-[#22d3ee]" />
                     </div>
 
                     <div className="absolute inset-x-5 bottom-5">
@@ -228,6 +232,7 @@ export function AppMockWindow() {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </Card>
     </section>

@@ -72,6 +72,7 @@ export function DemoPanel() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<MotionResponse | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [historyView, setHistoryView] = useState<"cards" | "table">("cards");
 
   const payload: DemoInput = useMemo(
     () => ({ styleText, actionText, engine, rigType, toggles }),
@@ -140,14 +141,19 @@ export function DemoPanel() {
   }
 
   return (
-    <section id="demo" className="section-shell mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-      <div className="mb-10">
+    <section
+      id="demo"
+      className="section-shell mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
+    >
+      <div className="mb-8 sm:mb-10">
         <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#d6c2ff]/80">Interactive demo</p>
-        <h2 className="text-3xl font-semibold text-white md:text-4xl">generate a motion spec</h2>
+        <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-white md:text-4xl">
+          generate a motion spec
+        </h2>
       </div>
 
-      <Card className="rounded-[2rem] p-6 md:p-8">
-        <div className="grid gap-8 lg:grid-cols-2">
+      <Card className="rounded-[2rem] p-4 sm:p-6 md:p-8">
+        <div className="grid gap-6 md:gap-8 xl:grid-cols-2">
           <div className="space-y-5">
             <div>
               <label className="mb-2 block text-xs uppercase tracking-[0.18em] text-white/60">style</label>
@@ -259,7 +265,11 @@ export function DemoPanel() {
               </div>
             </div>
 
-            <Button onClick={onGenerate} disabled={isLoading || styleText.length < 3 || actionText.length < 3}>
+            <Button
+              onClick={onGenerate}
+              className="min-h-11 w-full sm:w-auto"
+              disabled={isLoading || styleText.length < 3 || actionText.length < 3}
+            >
               {isLoading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -304,7 +314,7 @@ export function DemoPanel() {
             </div>
 
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList>
+              <TabsList className="h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl py-1">
                 <TabsTrigger value="summary">summary</TabsTrigger>
                 <TabsTrigger value="json">motionSpec JSON</TabsTrigger>
                 <TabsTrigger value="export">export</TabsTrigger>
@@ -332,7 +342,7 @@ export function DemoPanel() {
                     copy
                   </Button>
                 </div>
-                <pre className="max-h-[300px] overflow-auto rounded-2xl border border-white/10 bg-black/45 p-4 font-mono text-xs leading-relaxed text-[#cde8ff]">
+                <pre className="max-h-[300px] overflow-auto rounded-2xl border border-white/10 bg-black/45 p-3 font-mono text-xs leading-relaxed text-[#cde8ff] sm:p-4 sm:text-sm">
                   {formatMotionJson(result)}
                 </pre>
               </TabsContent>
@@ -365,29 +375,75 @@ export function DemoPanel() {
         </div>
 
         <div className="mt-8">
-          <p className="mb-3 text-xs uppercase tracking-[0.18em] text-white/60">last 5 generations</p>
-          <div className="grid gap-3">
-            {history.length ? (
-              history.map((item) => (
-                <div
-                  key={item.id}
-                  className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80"
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="truncate pr-4 font-medium text-white/90">
-                      {item.actionText} in {item.styleText}
-                    </p>
-                    <span className="text-xs text-white/50">{item.createdAt}</span>
-                  </div>
-                  <p className="mt-1 text-xs text-white/60">{item.summary}</p>
-                </div>
-              ))
-            ) : (
-              <p className="rounded-2xl border border-dashed border-white/20 bg-black/20 px-4 py-5 text-sm text-white/60">
-                No generations yet.
-              </p>
-            )}
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs uppercase tracking-[0.18em] text-white/60">last 5 generations</p>
+            <div className="hidden items-center gap-2 md:flex">
+              <Button
+                variant={historyView === "cards" ? "default" : "secondary"}
+                size="sm"
+                onClick={() => setHistoryView("cards")}
+              >
+                cards
+              </Button>
+              <Button
+                variant={historyView === "table" ? "default" : "secondary"}
+                size="sm"
+                onClick={() => setHistoryView("table")}
+              >
+                table
+              </Button>
+            </div>
           </div>
+
+          {history.length ? (
+            <>
+              <div className={historyView === "cards" ? "grid gap-3" : "hidden md:grid md:gap-3"}>
+                {history.map((item) => (
+                  <div
+                    key={item.id}
+                    className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="truncate pr-2 font-medium text-white/90">
+                        {item.actionText} in {item.styleText}
+                      </p>
+                      <span className="shrink-0 text-xs text-white/50">{item.createdAt}</span>
+                    </div>
+                    <p className="mt-1 text-xs text-white/60">{item.summary}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className={historyView === "table" ? "hidden md:block" : "hidden"}>
+                <div className="overflow-x-auto rounded-2xl border border-white/10 bg-black/20">
+                  <table className="min-w-[760px] w-full text-left text-sm text-white/80">
+                    <thead className="border-b border-white/10 text-xs uppercase tracking-[0.14em] text-white/55">
+                      <tr>
+                        <th className="sticky left-0 bg-[#070b1d] px-4 py-3">action</th>
+                        <th className="px-4 py-3">style</th>
+                        <th className="px-4 py-3">engine</th>
+                        <th className="px-4 py-3">time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {history.map((item) => (
+                        <tr key={`table-${item.id}`} className="border-b border-white/10 last:border-0">
+                          <td className="sticky left-0 bg-[#070b1d] px-4 py-3 text-white/90">{item.actionText}</td>
+                          <td className="px-4 py-3">{item.styleText}</td>
+                          <td className="px-4 py-3 uppercase">{item.motionSpec.engine}</td>
+                          <td className="px-4 py-3 text-xs text-white/55">{item.createdAt}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
+          ) : (
+            <p className="rounded-2xl border border-dashed border-white/20 bg-black/20 px-4 py-5 text-sm text-white/60">
+              No generations yet.
+            </p>
+          )}
         </div>
       </Card>
     </section>

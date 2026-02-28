@@ -49,18 +49,23 @@ export function FAQ() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section id="faq" className="section-shell mx-auto max-w-5xl px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      id="faq"
+      className="section-shell mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
+    >
       <motion.div
         initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
         whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.45 }}
       >
-        <div className="mb-8 text-center">
+        <div className="mb-8 text-center sm:mb-10">
           <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#d6c2ff]/80">FAQ</p>
-          <h2 className="text-3xl font-semibold text-white md:text-4xl">Answers for production teams.</h2>
+          <h2 className="mx-auto max-w-2xl text-3xl font-semibold leading-tight text-white md:text-4xl">
+            Answers for production teams.
+          </h2>
         </div>
-        <Card className="rounded-[2rem] border border-white/10 bg-black/30 px-6 md:px-8">
+        <Card className="rounded-[2rem] border border-white/10 bg-black/30 px-4 sm:px-6 md:px-8">
           <Accordion type="single" collapsible>
             {faqItems.map((item, idx) => (
               <AccordionItem key={item.q} value={`item-${idx}`}>

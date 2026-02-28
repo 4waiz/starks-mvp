@@ -52,23 +52,26 @@ export default function Home() {
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="relative overflow-hidden pt-28"
+        className="relative overflow-hidden pt-24 sm:pt-28"
       >
-        <section id="home" className="section-shell mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-8 xl:grid-cols-[1fr_1.2fr_0.9fr]">
+        <section
+          id="home"
+          className="section-shell mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24"
+        >
+          <div className="grid items-center gap-6 md:grid-cols-2 md:gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,0.9fr)] xl:gap-10">
             <motion.div
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -24 }}
               animate={reduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="space-y-6"
+              className="space-y-5 md:space-y-6"
             >
               <Badge variant="cyan" className="px-3 py-1.5 text-[11px] uppercase tracking-[0.18em]">
                 kinetic identity / motion generation
               </Badge>
-              <h1 className="text-4xl font-semibold leading-tight text-white md:text-6xl">
+              <h1 className="text-4xl font-semibold leading-[1.02] text-white sm:text-5xl lg:text-6xl xl:text-7xl">
                 welcome to the <span className="accent-italic gradient-text">future</span> of motion
               </h1>
-              <p className="max-w-2xl text-base leading-relaxed text-white/75">
+              <p className="max-w-2xl text-base leading-relaxed text-white/75 md:text-[17px]">
                 Clone movement identity from 60 seconds, generate new actions in that exact style, and export
                 fbx/bvh into unreal, unity, blender.
               </p>
@@ -77,8 +80,8 @@ export default function Home() {
                 licensing vault: consent + revenue share
               </Badge>
 
-              <div className="flex flex-wrap gap-3">
-                <Button asChild>
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button asChild className="w-full sm:w-auto">
                   <a
                     href="#demo"
                     onClick={() => {
@@ -91,7 +94,7 @@ export default function Home() {
                 </Button>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="secondary">
+                    <Button variant="secondary" className="w-full sm:w-auto">
                       <Play className="h-4 w-4" />
                       watch 20s preview
                     </Button>
@@ -156,13 +159,15 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <HeroHUD />
+            <div className="w-full">
+              <HeroHUD />
+            </div>
 
             <motion.div
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 24 }}
               animate={reduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
-              className="glass-panel rounded-3xl border border-white/10 p-5"
+              className="glass-panel max-w-xl rounded-3xl border border-white/10 p-4 sm:p-5 md:col-span-2 md:max-w-none xl:col-span-1"
             >
               <div className="mb-4 flex items-center gap-2">
                 <Radar className="h-4 w-4 text-[#22d3ee]" />
@@ -198,7 +203,7 @@ export default function Home() {
         <Pricing />
         <FAQ />
 
-        <section id="contact" className="mx-auto max-w-4xl px-4 py-24 sm:px-6 lg:px-8">
+        <section id="contact" className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
           <div className="glass-panel rounded-[2rem] border border-white/10 p-8 text-center md:p-10">
             <p className="mb-4 text-xs uppercase tracking-[0.24em] text-[#d6c2ff]/80">Request access</p>
             <h2 className="mx-auto max-w-2xl text-3xl font-semibold text-white md:text-4xl">
