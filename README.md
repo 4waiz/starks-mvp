@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Starks AI MVP
 
-## Getting Started
+Premium single-page Next.js 14 MVP for **Starks AI** with:
 
-First, run the development server:
+- Futuristic HUD visual system (glass panels, scan lines, particles, holographic styling)
+- Animated hero scene using `@react-three/fiber` + `@react-three/drei`
+- Scroll-driven motion with `framer-motion`
+- shadcn-style UI components + `lucide-react` icons
+- Real Gemini-backed interactive motion-spec demo via server route
+
+## Stack
+
+- Next.js 14 App Router + TypeScript
+- Tailwind CSS
+- Framer Motion
+- shadcn/ui-style component primitives
+- Three.js (`@react-three/fiber`, `@react-three/drei`) for hero HUD scene only
+- Gemini API (server-side route, no client key exposure)
+
+## 1) Install
+
+```bash
+npm install
+```
+
+## 2) Environment
+
+Copy `.env.example` to `.env.local` and set:
+
+```bash
+GEMINI_API_KEY=your_real_key
+```
+
+## 3) Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 4) Production build check
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## Gemini route details
 
-To learn more about Next.js, take a look at the following resources:
+- Endpoint: `POST /api/gemini`
+- Input: `{ styleText, actionText, engine, rigType, toggles }`
+- Validation: shared `zod` schema (`lib/motion-schema.ts`)
+- Safety:
+  - Server-side key usage only (`process.env.GEMINI_API_KEY`)
+  - Max input lengths enforced by schema
+  - Best-effort in-memory rate limit
+  - Strict JSON parsing + one retry if invalid JSON
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Push repo to GitHub/GitLab/Bitbucket.
+2. Import project in Vercel.
+3. In Vercel Project Settings -> Environment Variables, add:
+   - `GEMINI_API_KEY`
+4. Deploy.
 
-## Deploy on Vercel
+Vercel defaults:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Build Command: `next build`
+- Output Directory: `.next`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Project structure
+
+```text
+app/
+  api/gemini/route.ts
+  layout.tsx
+  page.tsx
+components/
+  SiteHeader.tsx
+  HeroHUD.tsx
+  ParticleField.tsx
+  AppMockWindow.tsx
+  Metrics.tsx
+  FeaturesGrid.tsx
+  HowItWorks.tsx
+  DemoPanel.tsx
+  Pricing.tsx
+  FAQ.tsx
+  Footer.tsx
+  ui/*
+lib/
+  gemini-client.ts
+  motion-schema.ts
+  utils.ts
+styles/
+  globals.css
+```
