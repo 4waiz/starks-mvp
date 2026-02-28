@@ -53,8 +53,8 @@ export function Metrics() {
             <h3 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
               {pipeline}x faster animation pipeline
             </h3>
-            <p className="mt-3 max-w-xl text-sm text-white/70">
-              Motion teams move from capture to engine-ready assets in minutes, not days.
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/70">
+              From capture to engine-ready clips in minutes, not days.
             </p>
 
             <div className="mt-10 grid gap-4 rounded-2xl border border-white/10 bg-black/20 p-5">
