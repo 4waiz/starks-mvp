@@ -66,10 +66,10 @@ export function HowItWorks() {
                 whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, scaleX: 1 }}
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ delay: idx * 0.1 + 0.25, duration: 0.45 }}
-                className="pointer-events-none absolute -right-4 top-1/2 hidden w-8 -translate-y-1/2 lg:flex"
+                className="pointer-events-none absolute -right-5 top-1/2 hidden h-4 w-5 -translate-y-1/2 items-center lg:flex"
               >
                 <div className="h-[2px] w-full bg-gradient-to-r from-[#8b5cf6] via-[#d946ef] to-[#22d3ee]" />
-                <ArrowRight className="-ml-1 h-4 w-4 text-[#d5beff]" />
+                <ArrowRight className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#d5beff]" />
               </motion.div>
             ) : null}
           </motion.div>

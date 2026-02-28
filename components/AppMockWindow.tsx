@@ -118,9 +118,91 @@ export function AppMockWindow() {
             </div>
             <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/40">
               <div className="relative aspect-[4/5]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.14),transparent_48%),linear-gradient(150deg,rgba(43,43,66,0.95),rgba(8,10,20,0.96))]" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.14),transparent_48%),linear-gradient(150deg,rgba(43,43,66,0.95),rgba(8,10,20,0.96))]">
+                  <div className="absolute inset-0 grid grid-cols-7 gap-px opacity-15">
+                    {Array.from({ length: 42 }).map((_, i) => (
+                      <span key={i} className="bg-white/10" />
+                    ))}
+                  </div>
+
+                  <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/55 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/70">
+                    manual pass
+                  </div>
+
+                  <div className="absolute left-[66%] top-[20%]">
+                    <div className="absolute left-1/2 top-0 h-3.5 w-3.5 -translate-x-1/2 rounded-full border border-white/60 bg-white/5" />
+                    <div className="absolute left-1/2 top-3.5 h-10 w-[2px] -translate-x-1/2 bg-white/50" />
+                    <div className="absolute left-[47%] top-7 h-[2px] w-7 -translate-x-full bg-white/50" />
+                    <div className="absolute left-[53%] top-7 h-[2px] w-7 bg-white/50" />
+                    <div className="absolute left-[49%] top-12 h-[2px] w-5 -translate-x-full rotate-45 bg-white/45" />
+                    <div className="absolute left-[51%] top-12 h-[2px] w-5 -rotate-45 bg-white/45" />
+                    <div className="absolute left-[47%] top-17 h-[2px] w-8 -translate-x-full rotate-[70deg] bg-[#f87171]/55" />
+                    <div className="absolute left-[53%] top-17 h-[2px] w-8 -rotate-[62deg] bg-[#f87171]/40" />
+                  </div>
+
+                  <div className="absolute inset-x-5 bottom-5">
+                    <div className="mb-1 text-[10px] uppercase tracking-[0.14em] text-white/45">
+                      contact drift variance
+                    </div>
+                    <div className="flex h-8 items-end gap-1 rounded-lg border border-white/10 bg-black/35 px-2 pb-1.5 pt-1">
+                      {[35, 62, 28, 74, 55, 39, 71, 22, 58, 44, 69, 33].map((h, idx) => (
+                        <span
+                          key={h + idx}
+                          style={{ height: `${h}%` }}
+                          className="w-full rounded-sm bg-gradient-to-t from-[#f87171]/55 to-white/35"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
                 <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - slider}% 0 0)` }}>
-                  <div className="h-full w-full bg-[radial-gradient(circle_at_60%_20%,rgba(139,92,246,0.45),transparent_45%),radial-gradient(circle_at_35%_70%,rgba(217,70,239,0.35),transparent_48%),linear-gradient(120deg,rgba(11,17,34,0.9),rgba(3,6,16,0.92))]" />
+                  <div className="h-full w-full bg-[radial-gradient(circle_at_60%_20%,rgba(139,92,246,0.45),transparent_45%),radial-gradient(circle_at_35%_70%,rgba(217,70,239,0.35),transparent_48%),linear-gradient(120deg,rgba(11,17,34,0.9),rgba(3,6,16,0.92))]">
+                    <div className="absolute inset-0 grid grid-cols-7 gap-px opacity-20">
+                      {Array.from({ length: 42 }).map((_, i) => (
+                        <span key={i} className="bg-[#c4b5fd]/10" />
+                      ))}
+                    </div>
+
+                    <div className="absolute left-4 top-4 rounded-full border border-[#22d3ee]/40 bg-black/55 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#c7f9ff]">
+                      starks generated
+                    </div>
+
+                    <motion.div
+                      className="absolute right-8 top-10 h-16 w-16 rounded-full border border-[#22d3ee]/30"
+                      animate={reduceMotion ? undefined : { rotate: 360 }}
+                      transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    >
+                      <div className="absolute inset-2 rounded-full border border-[#d946ef]/40" />
+                      <div className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#22d3ee]" />
+                    </motion.div>
+
+                    <div className="absolute left-[35%] top-[20%]">
+                      <div className="absolute left-1/2 top-0 h-3.5 w-3.5 -translate-x-1/2 rounded-full border border-[#e9ddff] bg-[#d946ef]/25" />
+                      <div className="absolute left-1/2 top-3.5 h-10 w-[2px] -translate-x-1/2 bg-[#e9ddff]" />
+                      <div className="absolute left-[47%] top-7 h-[2px] w-7 -translate-x-full bg-[#d3c2ff]" />
+                      <div className="absolute left-[53%] top-7 h-[2px] w-7 bg-[#d3c2ff]" />
+                      <div className="absolute left-[49%] top-12 h-[2px] w-5 -translate-x-full rotate-45 bg-[#c4b5fd]" />
+                      <div className="absolute left-[51%] top-12 h-[2px] w-5 -rotate-45 bg-[#c4b5fd]" />
+                      <div className="absolute left-[47%] top-17 h-[2px] w-8 -translate-x-full rotate-[66deg] bg-[#22d3ee]" />
+                      <div className="absolute left-[53%] top-17 h-[2px] w-8 -rotate-[66deg] bg-[#22d3ee]" />
+                    </div>
+
+                    <div className="absolute inset-x-5 bottom-5">
+                      <div className="mb-1 text-[10px] uppercase tracking-[0.14em] text-white/55">
+                        contact stability
+                      </div>
+                      <div className="flex h-8 items-end gap-1 rounded-lg border border-white/10 bg-black/35 px-2 pb-1.5 pt-1">
+                        {[18, 24, 20, 28, 23, 19, 26, 16, 22, 24, 20, 18].map((h, idx) => (
+                          <span
+                            key={h + idx}
+                            style={{ height: `${h}%` }}
+                            className="w-full rounded-sm bg-gradient-to-t from-[#22d3ee]/80 to-[#d946ef]/80"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div
                   className="absolute inset-y-0 z-10 w-[2px] bg-[#22d3ee] shadow-[0_0_18px_rgba(34,211,238,0.85)]"

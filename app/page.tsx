@@ -107,15 +107,114 @@ export default function Home() {
                         }
                         transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                       />
-                      <motion.div
-                        className="absolute left-0 right-0 top-0 h-[2px] bg-[#22d3ee] shadow-[0_0_18px_rgba(34,211,238,0.9)]"
-                        animate={reduceMotion ? {} : { top: ["0%", "100%"] }}
-                        transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                      />
-                      <div className="absolute inset-4 grid grid-cols-6 gap-2 opacity-35">
-                        {Array.from({ length: 48 }).map((_, i) => (
-                          <span key={i} className="rounded-sm border border-white/10 bg-white/[0.03]" />
-                        ))}
+                      <div className="absolute inset-4 grid grid-cols-12 gap-3">
+                        <div className="relative col-span-8 overflow-hidden rounded-xl border border-white/15 bg-black/30">
+                          <div className="absolute inset-0 grid grid-cols-7 gap-[1px] opacity-25">
+                            {Array.from({ length: 56 }).map((_, i) => (
+                              <span key={i} className="bg-white/10" />
+                            ))}
+                          </div>
+
+                          <motion.div
+                            className="absolute left-0 right-0 top-0 h-[2px] bg-[#22d3ee] shadow-[0_0_18px_rgba(34,211,238,0.9)]"
+                            animate={reduceMotion ? {} : { top: ["0%", "100%"] }}
+                            transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                          />
+
+                          <div className="absolute left-2 top-2 rounded-full border border-white/15 bg-black/55 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/70">
+                            Frame 128
+                          </div>
+
+                          <div className="absolute right-2 top-2 rounded-full border border-[#22d3ee]/40 bg-black/55 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#c7f9ff]">
+                            tracking lock
+                          </div>
+
+                          <div className="absolute left-[42%] top-[24%]">
+                            <div className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full border border-[#e9ddff] bg-[#d946ef]/20" />
+                            <div className="absolute left-1/2 top-3 h-8 w-[2px] -translate-x-1/2 bg-[#d3c2ff]" />
+                            <div className="absolute left-[47%] top-6 h-[2px] w-5 -translate-x-full bg-[#d3c2ff]" />
+                            <div className="absolute left-[53%] top-6 h-[2px] w-5 bg-[#d3c2ff]" />
+                            <div className="absolute left-[49%] top-10 h-[2px] w-4 -translate-x-full rotate-45 bg-[#22d3ee]" />
+                            <div className="absolute left-[51%] top-10 h-[2px] w-4 -rotate-45 bg-[#22d3ee]" />
+                            <div className="absolute left-[47%] top-14 h-[2px] w-6 -translate-x-full rotate-[67deg] bg-[#22d3ee]" />
+                            <div className="absolute left-[53%] top-14 h-[2px] w-6 -rotate-[67deg] bg-[#22d3ee]" />
+                          </div>
+
+                          <div className="absolute inset-x-3 bottom-2">
+                            <div className="mb-1 flex items-center justify-between text-[9px] uppercase tracking-[0.14em] text-white/55">
+                              <span>pose timeline</span>
+                              <span>00:14 / 00:20</span>
+                            </div>
+                            <div className="h-7 rounded-lg border border-white/10 bg-black/45 px-2 py-1">
+                              <div className="flex h-full items-end gap-1">
+                                {[28, 45, 22, 60, 34, 53, 26, 63, 29, 52, 32, 49].map((h, idx) => (
+                                  <motion.span
+                                    key={h + idx}
+                                    className="w-full rounded-sm bg-gradient-to-t from-[#8b5cf6] via-[#d946ef] to-[#22d3ee]"
+                                    animate={reduceMotion ? {} : { height: [`${h - 8}%`, `${h}%`, `${h - 5}%`] }}
+                                    transition={{
+                                      duration: 1.4 + idx * 0.03,
+                                      repeat: Number.POSITIVE_INFINITY,
+                                      ease: "easeInOut",
+                                      delay: idx * 0.05,
+                                    }}
+                                    style={{ height: `${h}%` }}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="col-span-4 grid gap-3">
+                          <div className="rounded-xl border border-white/15 bg-black/35 p-2.5">
+                            <p className="mb-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/60">
+                              pipeline
+                            </p>
+                            {[
+                              { label: "capture", width: "92%" },
+                              { label: "fingerprint", width: "78%" },
+                              { label: "generate", width: "64%" },
+                              { label: "export", width: "88%" },
+                            ].map((row, idx) => (
+                              <div key={row.label} className="mb-2 last:mb-0">
+                                <div className="mb-1 flex justify-between text-[9px] uppercase tracking-[0.14em] text-white/55">
+                                  <span>{row.label}</span>
+                                  <span>{row.width}</span>
+                                </div>
+                                <div className="h-1.5 rounded-full bg-white/10">
+                                  <motion.div
+                                    className="h-full rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#22d3ee]"
+                                    initial={{ width: 0 }}
+                                    animate={{ width: row.width }}
+                                    transition={{ duration: 0.8, delay: idx * 0.1 }}
+                                  />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="rounded-xl border border-white/15 bg-black/35 p-2.5">
+                            <p className="mb-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/60">
+                              active clips
+                            </p>
+                            <div className="grid grid-cols-2 gap-2">
+                              {["jab_combo", "pivot_turn", "idle_guard", "sidestep"].map((clip, idx) => (
+                                <div
+                                  key={clip}
+                                  className="rounded-md border border-white/10 bg-white/[0.03] px-2 py-1 text-[9px] uppercase tracking-[0.14em] text-white/70"
+                                >
+                                  <span className="mr-1 text-[#22d3ee]">{idx + 1}.</span>
+                                  {clip}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="rounded-xl border border-[#22d3ee]/30 bg-[#22d3ee]/5 px-2.5 py-2 text-[9px] uppercase tracking-[0.14em] text-[#c7f9ff]">
+                            realtime quality checks: clean_contacts / stable_timing
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </DialogContent>
