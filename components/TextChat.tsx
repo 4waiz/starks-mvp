@@ -24,12 +24,14 @@ const QUICK_PROMPTS = [
 
 export function TextChat({ messages, isLoading, onSend }: Props) {
   const [draft, setDraft] = useState("");
-  const endRef = useRef<HTMLDivElement | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const hasMessages = useMemo(() => messages.length > 0, [messages.length]);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    container.scrollTop = container.scrollHeight;
   }, [messages, isLoading]);
 
   async function handleSend(text: string) {
@@ -60,7 +62,7 @@ export function TextChat({ messages, isLoading, onSend }: Props) {
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3 sm:px-4">
+      <div ref={scrollContainerRef} className="min-h-0 flex-1 overflow-y-auto px-3 py-3 sm:px-4">
         {hasMessages ? (
           <div className="space-y-3">
             <AnimatePresence initial={false}>
@@ -90,7 +92,6 @@ export function TextChat({ messages, isLoading, onSend }: Props) {
                 <span className="text-xs uppercase tracking-[0.12em]">typing...</span>
               </div>
             ) : null}
-            <div ref={endRef} />
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-white/20 bg-black/25 px-4 py-4 text-sm text-white/60">
