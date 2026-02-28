@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Points, PointMaterial } from "@react-three/drei";
 import { motion, useReducedMotion } from "framer-motion";
-import type { Group } from "three";
 
 type HUDCoreProps = {
   pointer: { x: number; y: number };
@@ -13,10 +12,10 @@ type HUDCoreProps = {
 };
 
 function HUDCore({ pointer, reducedMotion, mobile }: HUDCoreProps) {
-  const groupRef = useRef<Group | null>(null);
-  const ringA = useRef<Group | null>(null);
-  const ringB = useRef<Group | null>(null);
-  const ringC = useRef<Group | null>(null);
+  const groupRef = useRef<any>(null);
+  const ringA = useRef<any>(null);
+  const ringB = useRef<any>(null);
+  const ringC = useRef<any>(null);
 
   const points = useMemo(() => {
     const count = reducedMotion ? 420 : mobile ? 520 : 850;
