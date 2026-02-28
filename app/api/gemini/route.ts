@@ -117,6 +117,7 @@ Required schema (must match exactly):
   "rig_notes": [],
   "engine": "unity|unreal|blender",
   "export": { "formats": ["FBX","BVH"], "retargeting": "humanoid" },
+  "confidence_score": number,
   "quality_checks": ["no_foot_sliding","clean_contacts","stable_timing"]
 }
 
@@ -136,6 +137,7 @@ Rules:
 - engine must exactly match the input engine.
 - export.formats must include both "FBX" and "BVH".
 - export.retargeting must be "humanoid".
+- confidence_score must be an integer from 0 to 100.
 - quality_checks should include no_foot_sliding, clean_contacts, stable_timing.
 `;
 }
@@ -147,7 +149,7 @@ function buildSummary(spec: MotionSpec) {
     ? spec.constraints.contact_points.join(", ")
     : "none";
 
-  return `Motion spec ready: ${action} in ${style} at ${spec.tempo_bpm} BPM, constraints on ${points}, export FBX/BVH for ${spec.engine}.`;
+  return `Motion spec ready: ${action} in ${style} at ${spec.tempo_bpm} BPM, constraints on ${points}, export FBX/BVH for ${spec.engine}, confidence ${spec.confidence_score}%.`;
 }
 
 async function parseGeminiToSpec(prompt: string, apiKey: string): Promise<MotionSpec> {

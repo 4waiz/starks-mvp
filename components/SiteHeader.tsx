@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Menu, Sparkles, Volume2, VolumeX } from "lucide-react";
+import { Command, FolderKanban, Menu, Sparkles, Volume2, VolumeX } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import {
   playBleep,
   setSoundEnabled as persistSoundEnabled,
 } from "@/lib/sound";
+import { emitOpenCommandPalette, emitOpenProjectsDrawer } from "@/lib/hotkeys";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -151,6 +152,28 @@ export function SiteHeader() {
               {soundEnabled ? <Volume2 className="h-3.5 w-3.5" /> : <VolumeX className="h-3.5 w-3.5" />}
               sound
             </button>
+            <button
+              type="button"
+              onClick={() => {
+                playBleep();
+                emitOpenCommandPalette();
+              }}
+              className="inline-flex h-9 items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <Command className="h-3.5 w-3.5" />
+              cmd+k
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                playBleep();
+                emitOpenProjectsDrawer();
+              }}
+              className="inline-flex h-9 items-center gap-1 rounded-full border border-white/15 bg-white/5 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <FolderKanban className="h-3.5 w-3.5" />
+              projects
+            </button>
             <Button asChild size="sm">
               <a
                 href="#contact"
@@ -204,6 +227,36 @@ export function SiteHeader() {
                       </Link>
                     </SheetClose>
                   ))}
+                </div>
+
+                <div className="mt-4 grid gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playBleep();
+                      emitOpenCommandPalette();
+                      setMobileOpen(false);
+                    }}
+                    className="inline-flex min-h-11 items-center justify-between rounded-xl border border-white/15 bg-white/5 px-3 text-sm font-medium text-white/85"
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <Command className="h-4 w-4 text-[#d6c2ff]" />
+                      command palette
+                    </span>
+                    <span className="text-xs uppercase tracking-[0.14em] text-white/55">cmd+k</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playBleep();
+                      emitOpenProjectsDrawer();
+                      setMobileOpen(false);
+                    }}
+                    className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3 text-sm font-medium text-white/85"
+                  >
+                    <FolderKanban className="h-4 w-4 text-[#d6c2ff]" />
+                    projects
+                  </button>
                 </div>
 
                 <div className="mt-6 rounded-2xl border border-white/10 bg-black/25 p-3">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Folder, Pencil, Plus, Save, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -25,24 +25,30 @@ import {
   setActiveProjectId,
   subscribeStorageUpdates,
   type Project,
+  type SavedOutput,
 } from "@/lib/storage";
 
 export function ProjectsDrawer() {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProjectId, setActiveProject] = useState<string | null>(null);
+  const [activeOutputs, setActiveOutputs] = useState<SavedOutput[]>([]);
+  const [analytics, setAnalytics] = useState({
+    generationsToday: 0,
+    avgExportSeconds: 0,
+    activeProjects: 0,
+  });
   const [newProjectName, setNewProjectName] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
-  const [refreshToken, setRefreshToken] = useState(0);
-
-  const analytics = useMemo(() => getAnalyticsSummary(), [refreshToken]);
 
   useEffect(() => {
     const refresh = () => {
+      const nextActiveId = getActiveProjectId();
       setProjects(getProjects());
-      setActiveProject(getActiveProjectId());
-      setRefreshToken((value) => value + 1);
+      setActiveProject(nextActiveId);
+      setActiveOutputs(nextActiveId ? getProjectOutputs(nextActiveId) : []);
+      setAnalytics(getAnalyticsSummary());
     };
 
     refresh();
@@ -58,11 +64,6 @@ export function ProjectsDrawer() {
       window.removeEventListener(OPEN_PROJECTS_DRAWER_EVENT, onOpen);
     };
   }, []);
-
-  const activeOutputs = useMemo(() => {
-    if (!activeProjectId) return [];
-    return getProjectOutputs(activeProjectId);
-  }, [activeProjectId, refreshToken]);
 
   const onCreateProject = () => {
     const project = createProject(newProjectName || "New project");
@@ -139,6 +140,7 @@ export function ProjectsDrawer() {
                     onClick={() => {
                       setActiveProjectId(project.id);
                       setActiveProject(project.id);
+                      setActiveOutputs(getProjectOutputs(project.id));
                       playBleep();
                     }}
                   >

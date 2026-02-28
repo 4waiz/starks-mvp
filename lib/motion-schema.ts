@@ -28,6 +28,7 @@ export const motionSpecSchema = z
       formats: z.array(z.enum(["FBX", "BVH"])).min(1),
       retargeting: z.literal("humanoid"),
     }),
+    confidence_score: z.number().min(0).max(100),
     quality_checks: z.array(z.string().min(1).max(48)).min(1).max(8),
   })
   .strict();

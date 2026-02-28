@@ -7,6 +7,7 @@ Premium single-page Next.js 14 MVP for **Starks AI** with:
 - Scroll-driven motion with `framer-motion`
 - shadcn-style UI components + `lucide-react` icons
 - Real Gemini-backed interactive motion-spec demo via server route
+- Command palette, local projects workspace, style library, and local share snapshots
 
 ## Stack
 
@@ -69,6 +70,14 @@ Sound toggle defaults to off and is persisted in localStorage.
 - Used for subtle bleep on primary actions (request access, try live demo, generate)
 - Missing sound file fails silently and never blocks UI
 
+## Interaction upgrades
+
+- `Cmd/Ctrl + K`: open command palette for section jumps, demo presets, and recent generations
+- `Projects` button (header): open local workspace drawer with saved outputs
+- `Explore styles`: searchable motion style library modal (tempo/genre/mood filters)
+- `Share`: creates local snapshot links at `/share/[id]` (localStorage-backed)
+- Demo widget includes onboarding tour, staged progress, confidence meter, quality badges, and demo export flow
+
 ## Gemini route details
 
 - Endpoint: `POST /api/gemini`
@@ -98,9 +107,13 @@ Vercel defaults:
 ```text
 app/
   api/gemini/route.ts
+  share/[id]/page.tsx
   layout.tsx
   page.tsx
 components/
+  CommandPalette.tsx
+  ProjectsDrawer.tsx
+  StylesLibraryModal.tsx
   SiteHeader.tsx
   HeroHUD.tsx
   ParticleField.tsx
@@ -115,7 +128,9 @@ components/
   ui/*
 lib/
   gemini-client.ts
+  hotkeys.ts
   motion-schema.ts
+  storage.ts
   utils.ts
 styles/
   globals.css

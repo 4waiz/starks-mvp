@@ -15,7 +15,9 @@ import { LiveTerminal } from "@/components/LiveTerminal";
 import { Metrics } from "@/components/Metrics";
 import { ParticleField } from "@/components/ParticleField";
 import { Pricing } from "@/components/Pricing";
+import { ProjectsDrawer } from "@/components/ProjectsDrawer";
 import { SiteHeader } from "@/components/SiteHeader";
+import { CommandPalette } from "@/components/CommandPalette";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,6 +49,8 @@ export default function Home() {
     <div className="noise-overlay relative">
       <ParticleField />
       <SiteHeader />
+      <CommandPalette />
+      <ProjectsDrawer />
 
       <motion.main
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
