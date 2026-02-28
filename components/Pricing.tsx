@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { playBleep } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 
 const tiers = [
@@ -83,7 +84,14 @@ export function Pricing() {
                 ))}
               </ul>
               <Button asChild className="mt-8 w-full">
-                <a href="#contact">request access</a>
+                <a
+                  href="#contact"
+                  onClick={() => {
+                    playBleep();
+                  }}
+                >
+                  request access
+                </a>
               </Button>
             </Card>
           </motion.div>

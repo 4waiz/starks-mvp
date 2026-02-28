@@ -46,6 +46,29 @@ npm run lint
 npm run build
 ```
 
+## Preview video setup
+
+Hero modal expects:
+
+- `public/preview/demo-loop.mp4`
+
+Recommended capture workflow:
+
+1. Record ~10 seconds in Chrome screen recorder or OBS.
+2. Capture the demo panel generating JSON + export tabs.
+3. Export MP4 (`H.264`) at `1080p` or `720p`.
+4. Save file as `public/preview/demo-loop.mp4`.
+
+If the file is missing, the modal shows a graceful fallback message.
+
+## Optional UI sound setup
+
+Sound toggle defaults to off and is persisted in localStorage.
+
+- Expected file: `public/sfx/bleep.mp3`
+- Used for subtle bleep on primary actions (request access, try live demo, generate)
+- Missing sound file fails silently and never blocks UI
+
 ## Gemini route details
 
 - Endpoint: `POST /api/gemini`

@@ -141,10 +141,10 @@ export default function Home() {
 
                       <div className="grid gap-2 text-xs text-white/65 sm:grid-cols-3">
                         <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 uppercase tracking-[0.14em]">
-                          capture -> fingerprint
+                          capture -&gt; fingerprint
                         </div>
                         <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 uppercase tracking-[0.14em]">
-                          generate -> cleanup
+                          generate -&gt; cleanup
                         </div>
                         <div className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 uppercase tracking-[0.14em]">
                           export fbx/bvh
@@ -219,7 +219,13 @@ export default function Home() {
                 placeholder="name@studio.com"
                 required
               />
-              <Button type="submit" className="sm:w-auto">
+              <Button
+                type="submit"
+                className="sm:w-auto"
+                onClick={() => {
+                  playBleep();
+                }}
+              >
                 request access
               </Button>
             </form>
