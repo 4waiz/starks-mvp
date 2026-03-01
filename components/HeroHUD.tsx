@@ -18,7 +18,7 @@ function HUDCore({ pointer, reducedMotion, mobile }: HUDCoreProps) {
   const ringC = useRef<any>(null);
 
   const points = useMemo(() => {
-    const count = reducedMotion ? 420 : mobile ? 520 : 850;
+    const count = reducedMotion ? 420 : 850;
     const arr: number[] = [];
     for (let i = 0; i < count; i += 1) {
       const radius = 1.35 + Math.random() * 1.1;
@@ -31,7 +31,7 @@ function HUDCore({ pointer, reducedMotion, mobile }: HUDCoreProps) {
       );
     }
     return new Float32Array(arr);
-  }, [mobile, reducedMotion]);
+  }, [reducedMotion]);
 
   useFrame((state, delta) => {
     if (!groupRef.current || !ringA.current || !ringB.current || !ringC.current) return;
@@ -97,8 +97,10 @@ export function HeroHUD() {
   const shouldReduceMotion = useReducedMotion();
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const sync = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -121,15 +123,17 @@ export function HeroHUD() {
       onMouseLeave={() => setPointer({ x: 0, y: 0 })}
       className="hud-grid relative mx-auto h-[300px] w-full max-w-[760px] overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.2),rgba(3,7,20,0.5)_45%,rgba(2,6,23,0.95)_80%)] shadow-[0_30px_90px_rgba(6,12,28,0.6)] sm:h-[360px] lg:h-[430px]"
     >
-      <Canvas
-        camera={{ position: [0, 0, 3.5], fov: 48 }}
-        className="absolute inset-0"
-        dpr={[1, isMobile ? 1.15 : 1.5]}
-      >
-        <ambientLight intensity={0.75} />
-        <directionalLight intensity={0.6} position={[2, 2, 2]} color="#d0bcff" />
-        <HUDCore pointer={pointer} reducedMotion={Boolean(shouldReduceMotion)} mobile={isMobile} />
-      </Canvas>
+      {mounted ? (
+        <Canvas
+          camera={{ position: [0, 0, 3.5], fov: 48 }}
+          className="absolute inset-0"
+          dpr={[1, isMobile ? 1.15 : 1.5]}
+        >
+          <ambientLight intensity={0.75} />
+          <directionalLight intensity={0.6} position={[2, 2, 2]} color="#d0bcff" />
+          <HUDCore pointer={pointer} reducedMotion={Boolean(shouldReduceMotion)} mobile={isMobile} />
+        </Canvas>
+      ) : null}
 
       <div className="scan-line" />
 

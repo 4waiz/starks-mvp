@@ -12,7 +12,7 @@ import {
   CommandList,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import {
   OPEN_COMMAND_PALETTE_EVENT,
   emitApplyPreset,
@@ -241,6 +241,10 @@ export function CommandPalette() {
       }}
     >
       <DialogContent className="h-[100dvh] max-h-[100dvh] w-screen max-w-none rounded-none border-0 bg-[#030712] p-0 sm:h-auto sm:max-h-[80vh] sm:w-[95vw] sm:max-w-2xl sm:rounded-3xl sm:border sm:border-white/15">
+        <DialogTitle className="sr-only">Command palette</DialogTitle>
+        <DialogDescription className="sr-only">
+          Search sections, presets, and recent generations.
+        </DialogDescription>
         <Command shouldFilter={false} className="h-full bg-transparent">
           <div className="relative">
             <CommandInput
